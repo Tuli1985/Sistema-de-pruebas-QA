@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel='stylesheet' href='https://cdn.materialdesignicons.com/3.3.92/css/materialdesignicons.min.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+
+    <link rel='stylesheet' href='css/style.css' />
+    <link href="https://fonts.googleapis.com/css?family=Lato|Liu+Jian+Mao+Cao&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        input:invalid:focus {
+            background-color: rgb(226, 252, 255)
+        }
+
+        ;
+    </style>
+</head>
+
+<body>
+
+    <!--nav Bar Panel -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" id='home'>BARI-SHOP</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href='index.html'>Home</a></li>
+                    <li class='drowpdown'>
+                        <a href="#" class='dropdown-toggle' data-toggle='dropdown'>Categorias <span
+                                class='caret'></span></a>
+                        <ul class='dropdown-menu '>
+                            <li><a href='index.html?c=mascotas'>Mascotas</a></li>
+                            <li><a href='index.html?c=tablets'>Tablets</a></li>
+                            <li><a href='index.html?c=phones'>Teléfonos</a></li>
+                            <li><a href='index.html?c=laptops'>Laptops</a></li>
+                            <li><a href='index.html?c=gaming'>Gaming</a></li>
+                            <li><a href='index.html?c=cameras'>Cámaras</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href='#' id='user_info' class='dropdown-toggle' data-toggle="dropdown">Hola,Inicia sesión
+                            <span class="caret"></a>
+                        <ul class="dropdown-menu ">
+
+                            <li id='settings'><a href="#" style='text-align:center'>Configuración</a></li>
+                            <li id='logout'><a href="#" style='text-align:center'>Logout <span
+                                        class='glyphicon glyphicon-log-out'></span></a></li>
+                            <li id='login'><a href='auth.html?auth=login' style='text-align:center'>Login <span
+                                        class='glyphicon glyphicon-log-in'></span></a></li>
+                            <li id='signUp'><a href='auth.html?auth=signup' style='text-align:center'>Nuevo Usuario
+                                    <span class='glyphicon glyphicon-user'></span></a></li>
+
+                        </ul>
+                    </li>
+                    <li class='active'><a href='#'>Carrito <span class='glyphicon glyphicon-shopping-cart'></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <table class="navbar " style="margin: auto">
+        <div class="text-center">
+            <img class="text-center" src="img/about-payment.png" alt="">
+        </div>
+
+        <h5 class="text-center">Datos Ingresados para el pago</h5>
+        <div class="text-center"><strong>Número de Tarjeta:</strong> <span id="span1"></span></div>
+        <div class="text-center"> <strong>Nombre Impreso: </strong><span id="span2"></span></div>
+
+        <div class="text-center"><strong> Mes:</strong> <span id="span3"></span> <strong>Año: </strong><span
+                id="span4"></span></div>
+        <div class="text-center"><strong>Código de Seguridad:</strong> <span id="span5"></span></div>
+
+
+        <span id="span6"></span>
+
+    </table>
+    <script>
+        const valores = window.location.search;
+        //Mostramos los valores en consola:
+        console.log(valores);
+        //Creamos la instancia
+        const urlParams = new URLSearchParams(valores);
+        //Accedemos a los valores
+        let un1 = urlParams.get('ntarj');
+        let un2 = urlParams.get('ntarj1');
+        let un3 = urlParams.get('mes');
+        let un4 = urlParams.get('year');
+        let un5 = urlParams.get('ntarj2');
+
+        document.getElementById('span1').innerHTML = un1;
+        document.getElementById('span2').innerHTML = un2.toLocaleUpperCase();
+        document.getElementById('span3').innerHTML = un3;
+        document.getElementById('span4').innerHTML = un4;
+        document.getElementById('span5').innerHTML = un5;
+
+
+    </script>
+
+    <div class='container-fluid'>
+        <div class='container  checkout' id='checkout' onclick="payMent()">
+            <div id="demo"></div>
+        </div>
+        <div class="container padding-2" id='cart'>
+        </div>
+
+
+
+
+        <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>
+        <script src='js/firebaseConfig.js'></script>
+        <script src='js/userInfo.js'></script>
+        <script src='js/cart2.js'></script>
+        <script>
+            let checkout = document.getElementById('checkout');
+            let cart = document.getElementById('cart');
+
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    firebase.database().ref('cart/' + user.uid).on('value', snap => {
+                        if (document.getElementById('checkoutRow') != null) {
+                            document.getElementById('checkoutRow').parentNode.removeChild(document.getElementById('checkoutRow'));
+                        }
+                        buildProceedToCheckOut(snap, checkout);
+                    });
+                    //user logs in
+                    firebase.database().ref('cart/' + user.uid).on('child_added', snap => {
+                        buildCartProducts(snap, cart);
+                    });
+
+                } else {
+                    //user logs out
+                    if (document.getElementById('checkoutRow') != null) {
+
+                        document.getElementById('checkoutRow').parentNode.removeChild(document.getElementById('checkoutRow'));
+
+                    }
+
+                    let items = document.getElementsByClassName('item');
+                    if (items[items.length - 1]) {
+                        for (let i = 0; i < items.length; i++) {
+                            items[i].parentNode.removeChild(items[i]);
+                        }
+                    }
+                    buildLoginBtn(cart, 'auth.html?auth=login');
+                }
+            });
+        </script>
+        <script>
+
+            function payMent() {
+                swal({
+  title: "¿Quiere Comprar?",
+  text: "Verifique que esten correctos sus datos",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    swal("!Sus datos fueron vendidos a usuarios chinos!", {
+      icon: "success",
+    });
+  } else {
+    swal("Verifique los datos de su tarjeta");
+  }
+});
+
+            }
+
+        </script>
+
+        <div class='container-fluid text-center padding-1 footer'>
+            <h4>Grupo1- Para Testear</h4>
+        </div>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+
+</html>

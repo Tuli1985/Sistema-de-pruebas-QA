@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel='stylesheet' href='https://cdn.materialdesignicons.com/3.3.92/css/materialdesignicons.min.css' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+
+  <!-- Add additional services that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+
+  <link rel='stylesheet' href='css/style.css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato|Liu+Jian+Mao+Cao&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+  <style>
+    input:invalid:focus {
+      background-color: rgb(226, 252, 255)
+    }
+
+    ;
+  </style>
+</head>
+
+<body>
+
+  <!--nav Bar Panel -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#" id='home'>BARI-SHOP</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href='index.html'>Home</a></li>
+          <li class='drowpdown'>
+            <a href="#" class='dropdown-toggle' data-toggle='dropdown'>Categorias <span class='caret'></span></a>
+            <ul class='dropdown-menu '>
+              <li><a href='index.html?c=mascotas'>Mascotas</a></li>
+              <li><a href='index.html?c=tablets'>Tablets</a></li>
+              <li><a href='index.html?c=phones'>Teléfonos</a></li>
+              <li><a href='index.html?c=laptops'>Laptops</a></li>
+              <li><a href='index.html?c=gaming'>Gaming</a></li>
+              <li><a href='index.html?c=cameras'>Cámaras</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+
+          <li class="dropdown">
+            <a href='#' id='user_info' class='dropdown-toggle' data-toggle="dropdown">Hola,Inicia sesión <span
+                class="caret"></a>
+            <ul class="dropdown-menu ">
+
+              <li id='settings'><a href="#" style='text-align:center'>Configuración</a></li>
+              <li id='logout'><a href="#" style='text-align:center'>Logout <span
+                    class='glyphicon glyphicon-log-out'></span></a></li>
+              <li id='login'><a href='auth.html?auth=login' style='text-align:center'>Login <span
+                    class='glyphicon glyphicon-log-in'></span></a></li>
+              <li id='signUp'><a href='auth.html?auth=signup' style='text-align:center'>Nuevo Usuario <span
+                    class='glyphicon glyphicon-user'></span></a></li>
+
+            </ul>
+          </li>
+          <li class='active'><a href='#'>Carrito <span class='glyphicon glyphicon-shopping-cart'></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class='container-fluid'>
+    <div class='container  checkout' id='checkout' onclick="clicked()">
+      <div id="demo"></div>
+    </div>
+    <div class="container padding-2" id='cart'>
+    </div>
+
+    <!--   formulario a agregar  -->
+    <div id="mi-super-msg" class="text-center" style="display:none">No hay PRODUCTOS para comprar</div>
+    <div id="mi-super-msg1" class="text-center" style="display:none">compra exitosa</div>
+    <div id="mi-super-contenido" style="display: none">
+
+
+
+      <div class="contenedor">
+
+        <!-- Tarjeta -->
+        <section class="tarjeta active" id="tarjeta">
+          <div class="delantera">
+            <div class="logo-marca" id="logo-marca">
+              <!-- <img src="img/logos/visa.png" alt=""> -->
+            </div>
+            <img src="img/chip-tarjeta.png" class="chip" alt="">
+            <div class="datos">
+              <div class="grupo" id="numero">
+                <p class="label">Número Tarjeta</p>
+                <p class="numero">#### #### #### ####</p>
+              </div>
+              <div class="flexbox">
+                <div class="grupo" id="nombre">
+                  <p class="label">Nombre Tarjeta</p>
+                  <p class="nombre">Grupo Uno</p>
+                </div>
+
+                <div class="grupo" id="expiracion">
+                  <p class="label">Expiracion</p>
+                  <p class="expiracion"><span class="mes">MM</span> / <span class="year">AA</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trasera">
+            <div class="barra-magnetica"></div>
+            <div class="datos">
+              <div class="grupo" id="firma">
+                <p class="label">Firma</p>
+                <div class="firma">
+                  <p></p>
+                </div>
+              </div>
+              <div class="grupo" id="ccv">
+                <p class="label">CCV</p>
+                <p class="ccv"></p>
+              </div>
+            </div>
+            <p class="leyenda">Ingresar todos los datos impresos en la tajeta en la parte inferior de este
+              formulario</p>
+            <a href="www.baritesting.web.app" class="link-banco">baritesting.web.app</a>
+          </div>
+        </section>
+
+        <!-- Contenedor Boton Abrir Formulario -->
+        <div class="contenedor-btn ">
+          <button class="btn-abrir-formulario " id="btn-abrir-formulario">
+            <i class=" fas fa-arrow-down"></i>
+          </button>
+        </div>
+
+        <!-- Formulario -->
+        <form name="fvalida" action="algo.html" 
+        method="get"id="formulario-tarjeta" class="formulario-tarjeta active">
+          <div class="grupo">
+            <label for="inputNumero">Número Tarjeta</label>
+            <span id="TarjetaError"></span>
+            <input name="ntarj" type="text" id="inputNumero" maxlength="19" autocomplete="off" required>
+          </div>
+          <div class="grupo">
+            <label for="inputNombre">Nombre</label>
+            <span id="TarjetaError2"></span>
+
+            <input name="ntarj1" type="text" id="inputNombre" maxlength="19" autocomplete="off" required>
+          </div>
+          <div class="flexbox">
+            <div class="grupo expira">
+              <label for="selectMes">Expiracion (MM/AAAA)</label>
+              <div class="flexbox">
+                <div class="grupo-select">
+                  <span id="TarjetaError4"></span>
+                  <select name="mes" id="selectMes">
+
+                    <option disabled required selected></option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                <div class="grupo-select">
+                  <span id="TarjetaError5"></span>
+                  <select name="year" required id="selectYear">
+
+                    <option disabled selected></option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="grupo ccv">
+              <label for="inputCCV">CCV</label>
+              <span id="TarjetaError3"></span>
+              <input type="text" name="ntarj2" id="inputCCV" maxlength="3" required>
+            </div>
+          </div>
+          <button class="btn-enviar" onclick="validarform()">Comprar</button>
+          <hr>
+          <button class="btn-cancelar" onclick="salir()">Cancelar</button>
+
+        </form>
+      </div>
+
+
+
+
+
+
+    </div>
+
+
+  </div>
+
+  <div class='container-fluid text-center padding-1 footer'>
+    <h4>Grupo1- Para Testear</h4>
+  </div>
+
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>
+  <script src='js/firebaseConfig.js'></script>
+  <script src='js/userInfo.js'></script>
+  <script src='js/cart.js'></script>
+  <script>
+    let checkout = document.getElementById('checkout');
+    let cart = document.getElementById('cart');
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        firebase.database().ref('cart/' + user.uid).on('value', snap => {
+          if (document.getElementById('checkoutRow') != null) {
+            document.getElementById('checkoutRow').parentNode.removeChild(document.getElementById('checkoutRow'));
+          }
+          buildProceedToCheckOut(snap, checkout);
+        });
+        //user logs in
+        firebase.database().ref('cart/' + user.uid).on('child_added', snap => {
+          buildCartProducts(snap, cart);
+        });
+
+      } else {
+        //user logs out
+        if (document.getElementById('checkoutRow') != null) {
+
+          document.getElementById('checkoutRow').parentNode.removeChild(document.getElementById('checkoutRow'));
+
+        }
+
+        let items = document.getElementsByClassName('item');
+        if (items[items.length - 1]) {
+          for (let i = 0; i < items.length; i++) {
+            items[i].parentNode.removeChild(items[i]);
+          }
+        }
+        buildLoginBtn(cart, 'auth.html?auth=login');
+      }
+    });
+  </script>
+  <script>
+
+    function clicked() {
+      let items = document.getElementsByClassName('item');
+
+      if (items[0] != undefined) {
+        document.getElementById("mi-super-contenido").style.display = "block";
+
+        ;
+      }
+      else {
+        document.getElementById("mi-super-contenido").style.display = "none";
+        document.getElementById("mi-super-msg").style.display = "block";
+      }
+
+    }
+
+  </script>
+
+  <!-- idea de validacion-->
+
+  <script>
+    let submit=1;
+    function validarform() {
+
+      let errorSpan = document.getElementById("TarjetaError");
+      let errorSpan1 = document.getElementById("TarjetaError2");
+      let errorSpan3 = document.getElementById("TarjetaError3");
+      let errorSpan4 = document.getElementById("TarjetaError4");
+      let errorSpan5 = document.getElementById("TarjetaError5");
+      
+      if(submit==0){
+
+      //valido el numero tarjeta
+      if (document.fvalida.ntarj.value.length == 0) {
+
+errorSpan.innerHTML = "Ingresar todos los nùmeros de la tarjeta"
+document.fvalida.ntarj.focus()
+return false;
+}
+
+//valido el nombre
+
+if (document.fvalida.ntarj1.value.length == 0) {
+
+errorSpan1.innerHTML = "Ingresar nombre impreso en la tarjeta"
+document.fvalida.ntarj1.focus()
+return false;
+
+}
+
+
+//valido el mes
+
+if (document.fvalida.selectMes.value.length == 0) {
+
+errorSpan4.innerHTML = "Ingresar Mes"
+document.fvalida.selectMes.focus()
+return false;
+
+}
+//valido el AÑO
+
+if (document.fvalida.selectYear.value.length == 0) {
+
+errorSpan5.innerHTML = "Ingresar Año"
+document.fvalida.selectYear.focus()
+return false;
+
+}
+
+//valido el ccv
+
+if (document.fvalida.inputCCV.value.length < 3) {
+
+errorSpan3.innerHTML = "3 Dígitos"
+document.fvalida.inputCCV.focus()
+return false;}
+
+else  {
+
+
+submit=1;
+
+
+}
+
+
+      }
+     if (submit==1){
+      document.getElementById("mi-super-msg1").style.display = "block";
+      submit=0;
+
+     }
+
+    }
+
+  </script>
+
+
+
+  <!-- form-->
+  <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function salir() {
+      document.getElementById("mi-super-contenido").style.display = "none";
+
+    }
+
+  </script>
+
+
+
+
+</body>
+
+</html>
